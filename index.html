@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>AR.js</title>
     <style>
-        a-scene {
-            height: 20px;
-            width: 30px;
+        a-scene{
+            height: 50%;
+            width: 50%;
         }
     </style>
 </head>
@@ -19,11 +19,11 @@
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v6.0.0/dist/aframe-extras.min.js"></script>
     <!-- AR.js ライブラリの読み込み -->
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.1/aframe/build/aframe-ar.js"></script>
-    <!-- AR クリックイベントのライブラリ ただ単にイベンドリスナーを登録してるだけでした-->
-    <!-- <script src="https://rawgit.com/nicolocarpignoli/nicolocarpignoli.github.io/master/ar-click-events/events.js"></script> -->
     <!-- A-Frame GIF -->
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+    <!-- A-Frame HTML Shader(日本語表示) -->
+    <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
     <!-- イベントリスナ-の登録 -->
     <script>
         AFRAME.registerComponent('pulldown-event', {
@@ -75,20 +75,31 @@
         </a-assets>
 
         <!-- マーカーを登録 -->
-        <a-marker preset="hiro" id="marker-hiro" pulldown-event>
+        <a-marker type="pattern" url="./patt/pattern-ar.patt" id="marker-ar" pulldown-event>
             <!-- マーカーの場所に箱を置く（ワイヤーフレーム表示） -->
             <a-box id="box" color="tomato" depth="1" height="1" width="1" position="0 0.5 0" link="href: https://plusultra.dev; visualAspectEnabled: false">
                 <a-animation
                     attribute="position"
                     from="0 0.5 0"
-                    to="0 0.5 1"
-                    dur="2000"
+                    to="0 0.5 1.5"
+                    dur="1000"
                     begin="markerfound"
                     end="markerlost"
                     easing="linear">
                 </a-animation>
             </a-box>
-            <a-box id="box2" wireframe="true" position="0 0.5 0" link="href: https://github.com/kazu7o; visualAspectEnabled: false">
+            <a-entity id="box2" geometry="primitive: plane" rotation="-90 0 0" material="shader: html; target: #htmlElement" position=" -1 0.5 0">
+                <a-animation
+                    attribute="position"
+                    from="-1 0.5 0"
+                    to="-1 0.5 1.5"
+                    dur="1000"
+                    begin="markerfound"
+                    end="markerlost"
+                    easing="linear">
+                </a-animation>
+            </a-entity>
+            <!-- <a-box id="box2" wireframe="true" position="0 0.5 0" link="href: https://github.com/kazu7o; visualAspectEnabled: false">
                 <a-animation
                     attribute="position"
                     from="-1.5 0.5 0"
@@ -98,13 +109,13 @@
                     end="markerlost"
                     easing="linear">
                 </a-animation>
-            </a-box>
-            <!-- <a-image id="img-mori" src="#mori" rotation="90 180 0">
+            </a-box> -->
+            <!-- <a-image id="image-mori" src="#mori" rotation="90 180 0">
                 <a-animation
                     attribute="position"
                     from="-1 0.5 0"
-                    to="-1 0.5 1"
-                    dur="2000"
+                    to="-1 0.5 1.5"
+                    dur="1000"
                     begin="markerfound"
                     end="markerlost"
                     easing="linear">
@@ -132,5 +143,8 @@
             <a-entity cursor="fuse: false; fuseTimeout: 500">
         </a-entity>
     </a-scene>
+    <div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -2; overflow: hidden">
+        <div id="htmlElement" style="background: #F8F8F8; color: #333; font-size: 48px">こんにちは世界</div>
+    </div>
 </body>
 </html>
